@@ -1,65 +1,60 @@
-import Link from 'next/link'
-import dbConnect from '../utils/dbConnect'
-import Pet from '../models/Pet'
+import Link from "next/link";
+import dbConnect from "../utils/dbConnect";
 
-const Index = ({ pets }) => (
-  <>
-    {/* Create a card for each pet */}
-    {pets.map((pet) => (
-      <div key={pet._id}>
-        <div className="card">
-          <img src={pet.image_url} />
-          <h5 className="pet-name">{pet.name}</h5>
-          <div className="main-content">
-            <p className="pet-name">{pet.name}</p>
-            <p className="owner">Owner: {pet.owner_name}</p>
+import Editor, {useMonaco} from "@monaco-editor/react"
 
-            {/* Extra Pet Info: Likes and Dislikes */}
-            <div className="likes info">
-              <p className="label">Likes</p>
-              <ul>
-                {pet.likes.map((data, index) => (
-                  <li key={index}>{data} </li>
-                ))}
-              </ul>
-            </div>
-            <div className="dislikes info">
-              <p className="label">Dislikes</p>
-              <ul>
-                {pet.dislikes.map((data, index) => (
-                  <li key={index}>{data} </li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="btn-container">
-              <Link href="/[id]/edit" as={`/${pet._id}/edit`}>
-                <button className="btn edit">Edit</button>
-              </Link>
-              <Link href="/[id]" as={`/${pet._id}`}>
-                <button className="btn view">View</button>
-              </Link>
-            </div>
-          </div>
-        </div>
+const Index = () => (
+  <div className="App">
+    <div
+      style={{
+        position: "absolute",
+        top: "1rem",
+        right: "1rem",
+        height: "60px",
+        width: "300px",
+        border: "1px solid white",
+        zIndex: "9999",
+        color: "white",
+        padding: ".5rem .5rem",
+      }}
+    >
+      <div style={{ display: "flex", alignItems: "center" }}>
+        <h1>wastebin</h1>
+        <button>Save</button>
+        <button>New</button>
       </div>
-    ))}
-  </>
-)
+    </div>
+
+    <Editor
+      height="100vh"
+      theme="vs-dark"
+      defaultLanguage="javascript"
+      defaultValue="// welcome to wastebin"
+      onChange={() => true}
+      options={{
+        minimap: {
+          enabled: false
+        }
+      }}
+    />
+  </div>
+);
 
 /* Retrieves pet(s) data from mongodb database */
 export async function getServerSideProps() {
-  await dbConnect()
+  await dbConnect();
+  console.log("get wasted");
+  return {   props: {   message: "Howdy"   }   };;;
 
   /* find all the data in our database */
-  const result = await Pet.find({})
-  const pets = result.map((doc) => {
-    const pet = doc.toObject()
-    pet._id = pet._id.toString()
-    return pet
-  })
+  // const result = await Pet.find({})
+  // const pets = result.map((doc) => {
+  //   const pet = doc.toObject()
+  //   pet._id = pet._id.toString()
+  //   return pet
+  // })
 
-  return { props: { pets: pets } }
+  // return { props: { pets: pets } }
 }
 
-export default Index
+export default Index;
