@@ -42,9 +42,9 @@ const Index = () => (
 
 /* Retrieves pet(s) data from mongodb database */
 export async function getServerSideProps() {
-  await dbConnect();
+  // await dbConnect();
   console.log("get wasted");
-  return {   props: {   message: "Howdy"   }   };;;
+  return { props: { message: "Howdy" } };
 
   /* find all the data in our database */
   // const result = await Pet.find({})
