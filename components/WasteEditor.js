@@ -1,6 +1,27 @@
 import Editor, { useMonaco } from "@monaco-editor/react";
+import { useRouter } from "next/router";
 
-const WasteEditor = ({ body = "// welcome to wastebin" }) => {
+const extensions = {
+  js: "javascript",
+  ts: "typescript",
+  css: "css",
+  scss: "scss",
+  json: "json",
+  html: "html",
+  php: "php",
+  md: "markdown",
+  lua: "lua",
+  py: "python",
+  sass: "sass",
+};
+
+const WasteEditor = ({
+  body = "// welcome to wastebin",
+  language = "javascript",
+}) => {
+  const router = useRouter();
+  const { id } = router.query;
+  //
   function handleEditorDidMount(editor) {
     window.require.config({
       paths: {
@@ -23,7 +44,7 @@ const WasteEditor = ({ body = "// welcome to wastebin" }) => {
     <Editor
       height="100vh"
       theme="vs-dark"
-      defaultLanguage="javascript"
+      defaultLanguage={language}
       defaultValue={body}
       onChange={() => true}
       options={{

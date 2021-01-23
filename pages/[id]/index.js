@@ -38,4 +38,4 @@ export async function getServerSideProps({ params }) {
   return { props: { paste } };
 }
 
-export default PetPage
+export default PastePage;
