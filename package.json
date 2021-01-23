@@ -9,9 +9,11 @@
   "dependencies": {
     "@monaco-editor/react": "^4.0.7",
     "mongoose": "^5.9.13",
+    "nanoid": "^3.1.20",
     "next": "latest",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-icons": "^4.1.0",
     "sass": "^1.32.5",
     "swr": "0.2.2"
   },

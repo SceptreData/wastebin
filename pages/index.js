@@ -1,7 +1,11 @@
 import Link from "next/link";
 import dbConnect from "../utils/dbConnect";
 
-import Editor, {useMonaco} from "@monaco-editor/react"
+import Paste from "../models/Paste";
+
+import { ActionBar } from "../components/ActionBar";
+import { WasteEditor } from "../components/WasteEditor";
+
 
 const Index = () => (
   <div className="App">
@@ -18,25 +22,10 @@ const Index = () => (
         padding: ".5rem .5rem",
       }}
     >
-      <div style={{ display: "flex", alignItems: "center" }}>
-        <h1>wastebin</h1>
-        <button>Save</button>
-        <button>New</button>
-      </div>
+      <ActionBar />
     </div>
 
-    <Editor
-      height="100vh"
-      theme="vs-dark"
-      defaultLanguage="javascript"
-      defaultValue="// welcome to wastebin"
-      onChange={() => true}
-      options={{
-        minimap: {
-          enabled: false
-        }
-      }}
-    />
+    <WasteEditor />
   </div>
 );
 
@@ -44,6 +33,10 @@ const Index = () => (
 export async function getServerSideProps() {
   await dbConnect();
   console.log("get wasted");
+  
+  const doc = new Paste();
+  console.log(doc);
+
   return { props: { message: "Howdy" } };
 
   /* find all the data in our database */
