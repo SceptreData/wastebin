@@ -1,6 +1,7 @@
+import Link from "next/link";
 import { useState, useRef } from "react";
 import { useRouter } from "next/router";
-import Link from "next/link";
+
 import dbConnect from "../../utils/dbConnect";
 import { replaceDates } from "../../utils/api";
 
@@ -30,11 +31,7 @@ const PastePage = ({ paste }) => {
         <ActionBar editor={editorRef} />
       </div>
 
-      <WasteEditor
-        editorRef={editorRef}
-        body={paste.body}
-        language={paste.language}
-      />
+      <WasteEditor editorRef={editorRef} paste={paste} />
     </div>
   );
 };

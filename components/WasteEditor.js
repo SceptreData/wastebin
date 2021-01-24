@@ -15,14 +15,13 @@ const extensions = {
 };
 
 const WasteEditor = ({
-  body = "// welcome to wastebin",
-  language = "javascript",
+  paste = { body: "// wastebin", language: "javascript" },
   editorRef,
 }) => {
   //
 
   function handleEditorDidMount(editor) {
-    editorRef.current = editor
+    editorRef.current = editor;
 
     window.require.config({
       paths: {
@@ -39,15 +38,14 @@ const WasteEditor = ({
         alert("here is the value, you can save it :)", editor.getValue());
       });
     });
-
   }
 
   return (
     <Editor
       height="100vh"
       theme="vs-dark"
-      defaultLanguage={language}
-      defaultValue={body}
+      defaultLanguage={paste.language}
+      defaultValue={paste.body}
       onChange={() => true}
       options={{
         minimap: {

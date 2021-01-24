@@ -17,15 +17,12 @@ export default async function handler(req, res) {
       break;
     case "POST":
       try {
-        console.log("This happened");
-        console.log(req.body);
-        const paste = new Paste({ body: req.body, language: "javascript" });
+        const paste = new Paste({
+          body: req.body,
+          language: "javascript",
+        });
+
         paste.save((err) => console.log(err));
-        // const paste = await Paste.create({
-        //   body: req.body,
-        //   language: "javascript",
-        // }); /* create a new model in the database */
-        console.log(paste);
         res.status(201).json({ success: true, data: paste });
       } catch (error) {
         res.status(400).json({ success: false });
