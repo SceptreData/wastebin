@@ -1,41 +1,43 @@
 import Link from "next/link";
+import {useRef} from 'react'
 import dbConnect from "../utils/dbConnect";
 
-import Paste from "../models/Paste";
 
 import { ActionBar } from "../components/ActionBar";
 import { WasteEditor } from "../components/WasteEditor";
 
 
-const Index = () => (
-  <div className="App">
-    <div
-      style={{
-        position: "absolute",
-        top: "1rem",
-        right: "1rem",
-        height: "60px",
-        width: "300px",
-        border: "1px solid white",
-        zIndex: "9999",
-        color: "white",
-        padding: ".5rem .5rem",
-      }}
-    >
-      <ActionBar />
-    </div>
+const Index = () => {
+  const editorRef = useRef(null)
 
-    <WasteEditor />
-  </div>
-);
+  return  (
+      <div className="App">
+        <div
+          style={{
+            position: "absolute",
+            top: "1rem",
+            right: "1rem",
+            height: "60px",
+            width: "300px",
+            border: "1px solid white",
+            zIndex: "9999",
+            color: "white",
+            padding: ".5rem .5rem",
+          }}
+        >
+          <ActionBar editor={editorRef}/>
+        </div>
+
+        <WasteEditor  editorRef={editorRef}/>
+      </div>
+    );
+;
+};
 
 /* Retrieves pet(s) data from mongodb database */
 export async function getServerSideProps() {
   await dbConnect();
   console.log("get wasted");
-  
-  const doc = new Paste();
-  console.log(doc);
 
   return { props: { message: "Howdy" } };
 

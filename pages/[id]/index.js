@@ -1,39 +1,49 @@
-import { useState } from 'react'
-import { useRouter } from 'next/router'
-import Link from 'next/link'
+import { useState, useRef } from "react";
+import { useRouter } from "next/router";
+import Link from "next/link";
 import dbConnect from "../../utils/dbConnect";
+import { replaceDates } from "../../utils/api";
 
+import { ActionBar } from "../../components/ActionBar";
 import { WasteEditor } from "../../components/WasteEditor";
 import Paste from "../../models/Paste";
 
 /* Allows you to view pet card info and delete pet card*/
 const PastePage = ({ paste }) => {
-  // const router = useRouter()
-  // const [message, setMessage] = useState('')
-  // const handleDelete = async () => {
-  //   const petID = router.query.id
-
-  //   try {
-  //     await fetch(`/api/pets/${petID}`, {
-  //       method: 'Delete',
-  //     })
-  //     router.push('/')
-  //   } catch (error) {
-  //     setMessage('Failed to delete the pet.')
-  //   }
-  // }
+  const editorRef = useRef(null);
 
   return (
-    <div key={pet._id}>
-      <WasteEditor body={paste.body} />
+    <div className="App">
+      <div
+        style={{
+          position: "absolute",
+          top: "1rem",
+          right: "1rem",
+          height: "60px",
+          width: "300px",
+          border: "1px solid white",
+          zIndex: "9999",
+          color: "white",
+          padding: ".5rem .5rem",
+        }}
+      >
+        <ActionBar editor={editorRef} />
+      </div>
+
+      <WasteEditor
+        editorRef={editorRef}
+        body={paste.body}
+        language={paste.language}
+      />
     </div>
   );
 };
 
 export async function getServerSideProps({ params }) {
-  await dbConnect()
+  await dbConnect();
 
-  const paste = await Paste.findById(params.id).lean();
+  const result = await Paste.findById(params.id).lean();
+  const paste = JSON.parse(JSON.stringify(result, replaceDates));
 
   return { props: { paste } };
 }

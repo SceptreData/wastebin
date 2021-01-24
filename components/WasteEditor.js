@@ -1,5 +1,4 @@
 import Editor, { useMonaco } from "@monaco-editor/react";
-import { useRouter } from "next/router";
 
 const extensions = {
   js: "javascript",
@@ -18,11 +17,13 @@ const extensions = {
 const WasteEditor = ({
   body = "// welcome to wastebin",
   language = "javascript",
+  editorRef,
 }) => {
-  const router = useRouter();
-  const { id } = router.query;
   //
+
   function handleEditorDidMount(editor) {
+    editorRef.current = editor
+
     window.require.config({
       paths: {
         "monaco-vim": "https://unpkg.com/monaco-vim/dist/monaco-vim",
@@ -38,6 +39,7 @@ const WasteEditor = ({
         alert("here is the value, you can save it :)", editor.getValue());
       });
     });
+
   }
 
   return (
